@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="vacationRequestSample" name="Vacation Request Sample" isExecutable="true">
+    <startEvent id="submitRequest" name="Submit Request" activiti:initiator="employeeName" activiti:formKey="employeeName"></startEvent>
+    <endEvent id="sid-E31ECB18-932F-41F3-AB6E-B1EE78BAA6EC"></endEvent>
+    <userTask id="handleRequest" name="Handle Vacation Request" activiti:candidateUsers="[manager]">
+      <extensionElements>
+        <activiti:formProperty id="vacationApproved" name="Do you approve this vacation" type="boolean" variable="vacationApproved"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <userTask id="adjustVacationRequestTask" name="Adjust vacation request" activiti:assignee="employeeName">
+      <extensionElements>
+        <activiti:formProperty id="resendRequest" name="Resend vacation request to manager?" type="boolean" variable="resendRequest"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="requestApprovedDecision" name="Request approved?"></exclusiveGateway>
+    <endEvent id="sid-A8831D58-D2FB-4A16-828A-6F482EDA2F7D"></endEvent>
+    <sequenceFlow id="flow1" sourceRef="submitRequest" targetRef="handleRequest"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="handleRequest" targetRef="requestApprovedDecision"></sequenceFlow>
+    <sequenceFlow id="flow3" name="${vacationApproved == 'true'}" sourceRef="requestApprovedDecision" targetRef="sid-E31ECB18-932F-41F3-AB6E-B1EE78BAA6EC">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vacationApproved == 'true'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" name="${vacationApproved == 'false'}" sourceRef="requestApprovedDecision" targetRef="adjustVacationRequestTask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vacationApproved == 'false'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow5" name="${resendRequest == 'false'}" sourceRef="adjustVacationRequestTask" targetRef="sid-A8831D58-D2FB-4A16-828A-6F482EDA2F7D">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${resendRequest == 'false'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow6" name="${resendRequest == 'true'}" sourceRef="adjustVacationRequestTask" targetRef="handleRequest">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${resendRequest == 'true'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_vacationRequestSample">
+    <bpmndi:BPMNPlane bpmnElement="vacationRequestSample" id="BPMNPlane_vacationRequestSample">
+      <bpmndi:BPMNShape bpmnElement="requestApprovedDecision" id="BPMNShape_requestApprovedDecision">
+        <omgdc:Bounds height="40.0" width="40.0" x="471.0" y="242.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="adjustVacationRequestTask" id="BPMNShape_adjustVacationRequestTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="441.0" y="510.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="handleRequest" id="BPMNShape_handleRequest">
+        <omgdc:Bounds height="80.0" width="100.0" x="255.0" y="222.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="submitRequest" id="BPMNShape_submitRequest">
+        <omgdc:Bounds height="30.0" width="30.0" x="120.0" y="247.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-E31ECB18-932F-41F3-AB6E-B1EE78BAA6EC" id="BPMNShape_sid-E31ECB18-932F-41F3-AB6E-B1EE78BAA6EC">
+        <omgdc:Bounds height="28.0" width="28.0" x="780.0" y="248.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-A8831D58-D2FB-4A16-828A-6F482EDA2F7D" id="BPMNShape_sid-A8831D58-D2FB-4A16-828A-6F482EDA2F7D">
+        <omgdc:Bounds height="28.0" width="28.0" x="780.0" y="536.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="511.0" y="262.0"></omgdi:waypoint>
+        <omgdi:waypoint x="780.0" y="262.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="355.0" y="262.0"></omgdi:waypoint>
+        <omgdi:waypoint x="471.0" y="262.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="541.0" y="550.0"></omgdi:waypoint>
+        <omgdi:waypoint x="780.0" y="550.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="491.0" y="282.0"></omgdi:waypoint>
+        <omgdi:waypoint x="491.0" y="510.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="150.0" y="262.0"></omgdi:waypoint>
+        <omgdi:waypoint x="255.0" y="262.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="441.0" y="550.0"></omgdi:waypoint>
+        <omgdi:waypoint x="305.0" y="550.0"></omgdi:waypoint>
+        <omgdi:waypoint x="305.0" y="302.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

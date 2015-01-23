@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Workflow Library
+Bundle-SymbolicName: com.ibm.xsp.xflow;singleton:=true
+Bundle-Version: 9.0.0.qualifier
+Bundle-Vendor: IBM
+Bundle-ClassPath: .
+Require-Bundle: com.ibm.commons,
+ com.ibm.xsp.core
+Export-Package: com.ibm.xsp.xflow,
+ com.ibm.xsp.xflow.history,
+ com.ibm.xsp.xflow.identity,
+ com.ibm.xsp.xflow.impl,
+ com.ibm.xsp.xflow.process,
+ com.ibm.xsp.xflow.role,
+ com.ibm.xsp.xflow.actionhandler

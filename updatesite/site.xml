@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.ibm.xsp.xflow.feature_1.0.1.201305131736.jar" id="com.ibm.xsp.xflow.feature" version="1.0.1.201305131736"/>
+</site>

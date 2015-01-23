@@ -1,0 +1,37 @@
+Manifest-Version: 1.0
+Export-Package: org.activiti.rest.servlet
+Require-Bundle: com.ibm.pvc.webcontainer,org.eclipse.core.runtime,java
+ x.servlet,org.apache.commons.logging,org.apache.commons.lang,com.ibm.
+ notes.java.api
+Bundle-Vendor: IBM
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: WebContent/WEB-INF/classes/,.,WebContent/WEB-INF/lib
+ /activation-1.1.jar,WebContent/WEB-INF/lib/activiti-engine-5.11.jar,W
+ ebContent/WEB-INF/lib/activiti-rest-5.11.jar,WebContent/WEB-INF/lib/a
+ ctiviti-spring-5.11.jar,WebContent/WEB-INF/lib/aopalliance-1.0.jar,We
+ bContent/WEB-INF/lib/commons-dbcp-1.4.jar,WebContent/WEB-INF/lib/comm
+ ons-email-1.2.jar,WebContent/WEB-INF/lib/commons-fileupload-1.2.2.jar
+ ,WebContent/WEB-INF/lib/commons-io-2.0.1.jar,WebContent/WEB-INF/lib/c
+ ommons-lang-2.4.jar,WebContent/WEB-INF/lib/commons-pool-1.5.4.jar,Web
+ Content/WEB-INF/lib/h2-1.3.168.jar,WebContent/WEB-INF/lib/jackson-cor
+ e-asl-1.9.9.jar,WebContent/WEB-INF/lib/jackson-mapper-asl-1.9.9.jar,W
+ ebContent/WEB-INF/lib/joda-time-2.1.jar,WebContent/WEB-INF/lib/mail-1
+ .4.1.jar,WebContent/WEB-INF/lib/mybatis-3.1.1.jar,WebContent/WEB-INF/
+ lib/org.restlet-2.0.15.jar,WebContent/WEB-INF/lib/org.restlet.ext.fil
+ eupload-2.0.15.jar,WebContent/WEB-INF/lib/org.restlet.ext.jackson-2.0
+ .15.jar,WebContent/WEB-INF/lib/org.restlet.ext.servlet-2.0.15.jar,Web
+ Content/WEB-INF/lib/spring-aop-3.1.2.RELEASE.jar,WebContent/WEB-INF/l
+ ib/spring-asm-3.1.2.RELEASE.jar,WebContent/WEB-INF/lib/spring-beans-3
+ .1.2.RELEASE.jar,WebContent/WEB-INF/lib/spring-context-3.1.2.RELEASE.
+ jar,WebContent/WEB-INF/lib/spring-core-3.1.2.RELEASE.jar,WebContent/W
+ EB-INF/lib/spring-expression-3.1.2.RELEASE.jar,WebContent/WEB-INF/lib
+ /spring-jdbc-3.1.2.RELEASE.jar,WebContent/WEB-INF/lib/spring-orm-3.1.
+ 2.RELEASE.jar,WebContent/WEB-INF/lib/spring-tx-3.1.2.RELEASE.jar
+Bundle-Version: 1.0.0.201301242355
+Bundle-Name: Activiti-rest
+Bundle-Activator: com.ibm.xsp.xflow.activiti_rest.Activator
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.ibm.xsp.xflow.activiti-rest;singleton:=true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+
+

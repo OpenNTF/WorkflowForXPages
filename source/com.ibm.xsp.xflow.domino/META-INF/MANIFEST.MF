@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Workflow Library Extensions for Domino
+Bundle-SymbolicName: com.ibm.xsp.xflow.domino;singleton:=true
+Bundle-Version: 9.0.0.qualifier
+Bundle-Vendor: IBM
+Bundle-ClassPath: .
+Require-Bundle: com.ibm.notes.java.api,
+ com.ibm.commons,
+ com.ibm.xsp.xflow,
+ com.ibm.xsp.domino
+Export-Package: com.ibm.xsp.xflow.domino

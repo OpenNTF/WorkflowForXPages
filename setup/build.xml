@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="xflow.setup" default="setup.activiti">
+  
+  <!-- ### PROPERTIES #################################################################### -->
+
+  <property name="downloads.dir" value="../downloads" />
+  <property name="xflow.home" value=".." /> 
+  <property name="xflow.version" value="1.1" /> 
+  <property name="activiti.version" value="5.11" />
+  <property name="activiti.url" value="http://activiti.org/release/" />
+  
+  <property name="plugins.dir" value="${xflow.home}/ActivitiServerPlugins" />
+  <property name="activiti.explorer.plugin.dir" value="${plugins.dir}/com.ibm.activiti_1.0.0.201301111947" />
+  <property name="activiti.rest.plugin.dir" value="${plugins.dir}/com.ibm.xsp.xflow.activiti-rest_1.0.0.201301242355" />
+  
+  <property name="source.dir" value="${xflow.home}/source" />
+  <property name="activiti.explorer.src.plugin.dir" value="${source.dir}/com.ibm.activiti" />
+  <property name="activiti.rest.src.plugin.dir" value="${source.dir}/com.ibm.activiti-rest" />
+  
+  <!-- ### OS PROPERTIES #################################################################### -->
+  
+  <condition property="is.windows">
+    <os family="Windows"/>
+  </condition>
+  
+  <condition property="is.not.windows">
+    <not>
+      <os family="Windows"/>
+    </not>
+  </condition>
+  
+  <target name="setup.activiti"
+          description="Download Activiti and copy to plugins">
+    <antcall target="activiti.install" />
+    <antcall target="copy.rest" />
+    <antcall target="copy.explorer.plugin" />
+    <antcall target="copy.explorer.src" />
+  </target>
+  
+  
+    <!-- ### Activiti #################################################################### -->
+
+  <property name="activiti.filename" value="activiti-${activiti.version}.zip" /> 
+  <property name="activiti.download.url" value="${activiti.url}${activiti.filename}" />    
+  <property name="activiti.distro" value="${downloads.dir}/${activiti.filename}" />
+  <property name="activiti.explorer.distro" value="${downloads.dir}/activiti-${activiti.version}/wars/activiti-explorer.war" />
+  <property name="activiti.rest.distro" value="${downloads.dir}/activiti-${activiti.version}/wars/activiti-rest.war" />
+  <property name="activiti.explorer.dir" value="${downloads.dir}/activiti-explorer" />
+  <property name="activiti.rest.dir" value="${downloads.dir}/activiti-rest" />
+  
+  <available property="is.activiti.available" file="${activiti.distro}" />
+
+  <target name="activiti.install"
+          description="Download Activiti to Download directory and unzip">
+    <antcall target="internal.activiti.download" />
+    <antcall target="internal.activiti.unzip" />
+    <antcall target="internal.activiti.explorer.unzip" />
+    <antcall target="internal.activiti.rest.unzip" />
+  </target>
+
+  <target name="internal.activiti.download" unless="is.activiti.available">
+    <mkdir dir="${downloads.dir}" />
+    <get src="${activiti.download.url}" dest="${activiti.distro}" />
+  </target>
+
+  <target name="internal.activiti.unzip">
+    <unzip src="${activiti.distro}" dest="${downloads.dir}"/>
+  </target>
+  
+  <target name="internal.activiti.explorer.unzip">
+    <mkdir dir="${activiti.explorer.dir}" />
+    <unzip src="${activiti.explorer.distro}" dest="${activiti.explorer.dir}"/>
+  </target>
+  
+  <target name="internal.activiti.rest.unzip">
+    <mkdir dir="${activiti.rest.dir}" />
+    <unzip src="${activiti.rest.distro}" dest="${activiti.rest.dir}"/>
+  </target>
+  
+  
+  <!-- ### Copy Activiti Rest #################################################################### -->
+  <target name="copy.rest">
+    <copy todir="${activiti.rest.plugin.dir}/WebContent/WEB-INF">
+      <fileset dir="${activiti.rest.dir}/WEB-INF">
+        <include name="web.xml" />
+      </fileset>
+    </copy>
+  
+    <copy todir="${activiti.rest.plugin.dir}/WebContent/WEB-INF/classes">
+      <fileset dir="${activiti.rest.dir}/WEB-INF/classes" >
+        <include name="logging.properties" />
+      </fileset>
+    </copy>
+  
+    <copy todir="${activiti.rest.plugin.dir}/WebContent/WEB-INF/lib">
+      <fileset dir="${activiti.rest.dir}/WEB-INF/lib" >
+        <include name="*" />
+      </fileset>
+    </copy>
+  
+    <copy todir="${activiti.rest.src.plugin.dir}/WebContent/WEB-INF">
+      <fileset dir="${activiti.rest.dir}/WEB-INF" >
+        <include name="web.xml" />
+      </fileset>
+    </copy>
+  
+    <copy todir="${activiti.rest.src.plugin.dir}/WebContent/WEB-INF/classes">
+      <fileset dir="${activiti.rest.dir}/WEB-INF/classes" >
+        <include name="logging.properties" />
+      </fileset>
+    </copy>
+  
+    <copy todir="${activiti.rest.src.plugin.dir}/WebContent/WEB-INF/lib">
+      <fileset dir="${activiti.rest.dir}/WEB-INF/lib" >
+        <include name="*" />
+      </fileset>
+    </copy>
+   </target>
+    
+  
+  <!-- ### Copy Activiti Explorer #################################################################### -->
+  <target name="copy.explorer.plugin">
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="api/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="editor/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="explorer/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="libs/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="META-INF/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="VAADIN/**" />
+      </fileset>
+    </copy>
+      
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent/WEB-INF/classes">
+      <fileset dir="${activiti.explorer.dir}/WEB-INF/classes">
+        <include name="**" />
+        <exclude name="db.properties" />
+      </fileset>
+    </copy>
+  
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent/WEB-INF">
+      <fileset dir="${activiti.explorer.dir}/WEB-INF">
+        <include name="lib/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.plugin.dir}/WebContent/WEB-INF">
+      <fileset dir="${activiti.explorer.dir}/WEB-INF">
+        <include name="activiti-standalone-context.xml" />
+        <include name="activiti-ui-context.xml" />
+        <include name="applicationContext.xml" />
+      </fileset>
+    </copy>
+    
+
+   </target> 
+  
+   <target name="copy.explorer.src">
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="api/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="editor/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="explorer/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="libs/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="META-INF/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent">
+      <fileset dir="${activiti.explorer.dir}">
+        <include name="VAADIN/**" />
+      </fileset>
+    </copy>
+      
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent/WEB-INF/classes">
+      <fileset dir="${activiti.explorer.dir}/WEB-INF/classes">
+        <include name="**" />
+        <exclude name="db.properties" />
+      </fileset>
+    </copy>
+  
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent/WEB-INF">
+      <fileset dir="${activiti.explorer.dir}/WEB-INF">
+        <include name="lib/**" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${activiti.explorer.src.plugin.dir}/WebContent/WEB-INF">
+      <fileset dir="${activiti.explorer.dir}/WEB-INF">
+        <include name="activiti-standalone-context.xml" />
+        <include name="activiti-ui-context.xml" />
+        <include name="applicationContext.xml" />
+      </fileset>
+    </copy>
+    
+
+   </target> 
+  
+    
+  
+  
+</project>
